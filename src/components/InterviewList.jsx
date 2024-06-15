@@ -75,7 +75,11 @@ const InterviewList = () => {
                         />
                       </span>
                       <div>
-                        <div className="font-medium">{interview.candidate}</div>
+                        <div className="font-medium">
+                          <Link to={`/interview/${interview.id}`} className="text-blue-500 hover:underline">
+                            {interview.candidate}
+                          </Link>
+                        </div>
                         <div className="text-sm text-gray-500 dark:text-gray-400">
                           {interview.email}
                         </div>

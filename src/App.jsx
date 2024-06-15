@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import InterviewList from './components/InterviewList';
 import AddInterview from './components/AddInterview';
+import InterviewDetail from './components/InterviewDetail';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<InterviewList />} />
           <Route path="/add-interview" element={<AddInterview />} />
+          <Route path="/interview/:id" element={<InterviewDetail />} />
         </Routes>
       </div>
     </Router>
