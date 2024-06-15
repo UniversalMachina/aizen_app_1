@@ -1,14 +1,14 @@
-import './App.css'
-import { useState } from 'react'
+import './App.css';
+import { useState } from 'react';
 
 function App() {
-  const [response, setResponse] = useState("");
+  const [image, setImage] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const prompt = e.target.prompt.value;
-
-    const res = await fetch('http://localhost:5000/generate-linkedin-post', {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const prompt = event.target.prompt.value;
+    
+    const response = await fetch('http://localhost:5000/generate-post-image', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -16,9 +16,14 @@ function App() {
       body: JSON.stringify({ prompt })
     });
 
-    const data = await res.json();
-    setResponse(data.message);
-  }
+    if (response.ok) {
+      const imageBlob = await response.blob();
+      const imageUrl = URL.createObjectURL(imageBlob);
+      setImage(imageUrl);
+    } else {
+      console.error('Failed to fetch image');
+    }
+  };
 
   return (
     <>
@@ -47,15 +52,15 @@ function App() {
               </button>
             </div>
           </form>
-          {response && (
-            <div className="mt-4 p-4 bg-blue-100 dark:bg-blue-700 rounded-md text-blue-800 dark:text-blue-100">
-              {response}
+          {image && (
+            <div className="mt-4">
+              <img src={image} alt="Generated Post" className="rounded-md shadow-md" />
             </div>
           )}
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
